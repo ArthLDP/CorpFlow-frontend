@@ -89,15 +89,15 @@ export class KanbanBoardComponent implements OnInit {
 
   // Valida se o movimento é permitido pelas regras de negócio
   private validateMove(prevStatus: string, newStatus: string): boolean {
-    if (newStatus === 'APROVADO' && prevStatus !== 'VERIFICAR') {
-      this.snackBar.open('Este bloco precisa estar em "Verificar" para ser aprovado', 'Fechar', {
+    if (prevStatus === 'APROVADO') {
+      this.snackBar.open('Este bloco já foi aprovado, não é possível fazer mudanças"', 'Fechar', {
         duration: 3000
       });
       return false;
     }
 
-    if (newStatus === 'FAZER_TAREFA' && prevStatus !== 'APROVADO') {
-      this.snackBar.open('Este bloco precisa estar aprovado para arrastá-lo para "Fazer tarefa"', 'Fechar', {
+    if (newStatus === 'APROVADO' && prevStatus !== 'VERIFICAR') {
+      this.snackBar.open('Este bloco precisa estar em "Verificar" para ser aprovado', 'Fechar', {
         duration: 3000
       });
       return false;

@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" *ngIf="currentUser">
+  <span>Sistema Kanban</span>
+  <span class="spacer"></span>
+  <span>{{ currentUser.username }} ({{ currentUser.user_type }})</span>
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="app-container">
+  <router-outlet></router-outlet>
+</div>

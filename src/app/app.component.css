@@ -1,0 +1,15 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  
+  .app-container {
+    padding: 0;
+    margin: 0;
+    min-height: calc(100vh - 64px);
+  }
+  
+  mat-toolbar {
+    span {
+      margin-right: 10px;
+    }
+  }

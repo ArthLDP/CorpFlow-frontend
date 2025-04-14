@@ -41,7 +41,7 @@ export class KanbanBoardComponent implements OnInit {
     } else {
       // Movendo para outra lista
       const task = event.previousContainer.data[event.previousIndex];
-      const prevStatus = task.status;
+      const prevStatus = this.getStatusFromListId(event.previousContainer.id);
       const newStatus = this.getStatusFromListId(event.container.id);
       
       // Validar regras de movimento

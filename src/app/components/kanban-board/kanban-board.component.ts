@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { Task } from '../../models/task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-kanban-board',
@@ -14,15 +16,18 @@ export class KanbanBoardComponent implements OnInit {
   fazerTarefas: Task[] = [];
   verificar: Task[] = [];
   aprovado: Task[] = [];
+  usuarios: User[] = [];
   
   constructor(
     private taskService: TaskService,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.loadTasks();
+    this.loadUsers();
   }
 
   loadTasks(): void {
@@ -31,6 +36,18 @@ export class KanbanBoardComponent implements OnInit {
       this.verificar = tasks.filter(task => task.status === 'VERIFICAR');
       this.aprovado = tasks.filter(task => task.status === 'APROVADO');
     });
+  }
+
+  loadUsers(): void {
+    this.userService.getUsers().subscribe(users => {
+      this.usuarios = users
+    })
+  }
+
+  getUserNameById(id: number): string {
+    let user = this.usuarios.find(user => user.id === id);
+    if (user) return user.username;
+    return "";
   }
 
   // Função que gerencia o arrastar e soltar
@@ -107,11 +124,12 @@ export class KanbanBoardComponent implements OnInit {
   }
 
   // Adicionar uma nova tarefa
-  addNewTask(title: string, description: string): void {
+  addNewTask(title: string, description: string, attributed_to: number): void {
     const newTask: Partial<Task> = {
       title,
       description,
-      status: 'FAZER_TAREFA'
+      status: 'FAZER_TAREFA',
+      attributed_to
     };
 
     this.taskService.createTask(newTask).subscribe(task => {

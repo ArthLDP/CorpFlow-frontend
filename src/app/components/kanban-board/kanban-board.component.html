@@ -17,7 +17,7 @@
           <div class="task-card" *ngFor="let task of fazerTarefas" cdkDrag>
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
-            <h4>atribuído para: {{ getUserNameById(task.attributed_to) }}</h4>
+            <h4>Atribuído para: {{ getUserNameById(task.attributed_to) }} <br> Prazo: {{ getDateStringByDate(task.finalDate) }}</h4>
           </div>
           
           <div class="empty-message" *ngIf="fazerTarefas.length === 0">
@@ -41,7 +41,7 @@
           <div class="task-card" *ngFor="let task of verificar" cdkDrag>
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
-            <h4>atribuído para: {{ getUserNameById(task.attributed_to) }}</h4>
+            <h4>Atribuído para: {{ getUserNameById(task.attributed_to) }} <br> Prazo: {{ getDateStringByDate(task.finalDate) }}</h4>
           </div>
           
           <div class="empty-message" *ngIf="verificar.length === 0">
@@ -65,7 +65,7 @@
           <div class="task-card" *ngFor="let task of aprovado" cdkDrag>
             <h3>{{ task.title }}</h3>
             <p>{{ task.description }}</p>
-            <h4>atribuído para: {{ getUserNameById(task.attributed_to) }}</h4>
+            <h4>Atribuído para: {{ getUserNameById(task.attributed_to) }} <br> Prazo: {{ getDateStringByDate(task.finalDate) }}</h4>
           </div>
           
           <div class="empty-message" *ngIf="aprovado.length === 0">
@@ -78,7 +78,7 @@
     <!-- Formulário para adicionar nova tarefa -->
     <div class="new-task-form">
       <h2>Adicionar Nova Tarefa</h2>
-      <form #taskForm="ngForm" (ngSubmit)="addNewTask(titleInput.value, descriptionInput.value, attributedToInput.value); taskForm.reset()">
+      <form #taskForm="ngForm" (ngSubmit)="addNewTask(titleInput.value, descriptionInput.value, attributedToInput.value, finaldateToInput.value); taskForm.reset()">
         <mat-form-field>
           <mat-label>Título</mat-label>
           <input matInput #titleInput required>
@@ -96,6 +96,14 @@
               <mat-option [value]="user.id">{{user.username}}</mat-option>
             }
           </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Para o dia</mat-label>
+          <input matInput [matDatepicker]="picker" [min]="minDate" readonly #finaldateToInput>
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         
         <button mat-raised-button color="primary" type="submit" [disabled]="!taskForm.valid">

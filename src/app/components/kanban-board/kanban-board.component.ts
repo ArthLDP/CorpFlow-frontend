@@ -17,6 +17,7 @@ export class KanbanBoardComponent implements OnInit {
   verificar: Task[] = [];
   aprovado: Task[] = [];
   usuarios: User[] = [];
+  minDate: Date = new Date();
   
   constructor(
     private taskService: TaskService,
@@ -48,6 +49,23 @@ export class KanbanBoardComponent implements OnInit {
     let user = this.usuarios.find(user => user.id === id);
     if (user) return user.username;
     return "";
+  }
+
+  getDateStringByDate(date: Date | string): string {
+    if (!date) return "";
+  
+    const months = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+  
+    const dateObj = new Date(date)
+
+    const day = dateObj.getUTCDate();
+    const month = months[dateObj.getUTCMonth()];
+    const year = dateObj.getUTCFullYear();
+  
+    return `${day} de ${month} de ${year}`;
   }
 
   // Função que gerencia o arrastar e soltar
@@ -124,12 +142,15 @@ export class KanbanBoardComponent implements OnInit {
   }
 
   // Adicionar uma nova tarefa
-  addNewTask(title: string, description: string, attributed_to: number): void {
+  addNewTask(title: string, description: string, attributed_to: number, finalDate: string): void {
+    let [day, month, year] = finalDate.split('/')
+    const dateObj = new Date(+year, +month - 1, +day)
     const newTask: Partial<Task> = {
       title,
       description,
       status: 'FAZER_TAREFA',
-      attributed_to
+      attributed_to,
+      finalDate: dateObj
     };
 
     this.taskService.createTask(newTask).subscribe(task => {

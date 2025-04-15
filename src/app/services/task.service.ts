@@ -23,7 +23,7 @@ export class TaskService {
     return this.http.put<Task>(`${this.apiUrl}/${task.id}`, task);
   }
 
-  updateTaskStatus(taskId: number, newStatus: 'FAZER_TAREFA' | 'VERIFICAR' | 'APROVADO'): Observable<Task> {
+  updateTaskStatus(taskId: number, newStatus: 'FAZER_TAREFA' | 'EM_EXECUCAO' | 'VERIFICAR' | 'APROVADO'): Observable<Task> {
     return this.http.patch<Task>(`${this.apiUrl}/${taskId}/status`, { status: newStatus });
   }
 

@@ -14,6 +14,7 @@ import { User } from '../../models/user.model';
 })
 export class KanbanBoardComponent implements OnInit {
   fazerTarefas: Task[] = [];
+  emExecucao: Task[] = [];
   verificar: Task[] = [];
   aprovado: Task[] = [];
   usuarios: User[] = [];
@@ -34,6 +35,7 @@ export class KanbanBoardComponent implements OnInit {
   loadTasks(): void {
     this.taskService.getTasks().subscribe(tasks => {
       this.fazerTarefas = tasks.filter(task => task.status === 'FAZER_TAREFA');
+      this.emExecucao = tasks.filter(task => task.status === 'EM_EXECUCAO')
       this.verificar = tasks.filter(task => task.status === 'VERIFICAR');
       this.aprovado = tasks.filter(task => task.status === 'APROVADO');
     });
@@ -113,9 +115,10 @@ export class KanbanBoardComponent implements OnInit {
   }
 
   // Obtém o status correspondente ao ID da lista
-  private getStatusFromListId(listId: string): 'FAZER_TAREFA' | 'VERIFICAR' | 'APROVADO' {
+  private getStatusFromListId(listId: string): 'FAZER_TAREFA' | 'EM_EXECUCAO' | 'VERIFICAR' | 'APROVADO' {
     switch (listId) {
       case 'fazer-tarefa-list': return 'FAZER_TAREFA';
+      case 'em-execucao-list': return 'EM_EXECUCAO';
       case 'verificar-list': return 'VERIFICAR';
       case 'aprovado-list': return 'APROVADO';
       default: return 'FAZER_TAREFA';

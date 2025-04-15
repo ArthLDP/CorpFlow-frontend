@@ -9,7 +9,7 @@
           cdkDropList
           #fazerTarefaList="cdkDropList"
           [cdkDropListData]="fazerTarefas"
-          [cdkDropListConnectedTo]="[verificarList, aprovadoList]"
+          [cdkDropListConnectedTo]="[emExecucaoList, verificarList, aprovadoList]"
           class="tasks-list"
           id="fazer-tarefa-list"
           (cdkDropListDropped)="drop($event)">
@@ -25,6 +25,30 @@
           </div>
         </div>
       </div>
+
+      <!-- Coluna "Em execução" -->
+      <div class="board-column">
+        <h2>Em execução</h2>
+        <div 
+          cdkDropList
+          #emExecucaoList="cdkDropList"
+          [cdkDropListData]="emExecucao"
+          [cdkDropListConnectedTo]="[fazerTarefaList, verificarList, aprovadoList]"
+          class="tasks-list"
+          id="em-execucao-list"
+          (cdkDropListDropped)="drop($event)">
+          
+          <div class="task-card" *ngFor="let task of emExecucao" cdkDrag>
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+            <h4>Atribuído para: {{ getUserNameById(task.attributed_to) }} <br> Prazo: {{ getDateStringByDate(task.finalDate) }}</h4>
+          </div>
+          
+          <div class="empty-message" *ngIf="emExecucao.length === 0">
+            Sem tarefas
+          </div>
+        </div>
+      </div>
       
       <!-- Coluna "Verificar" -->
       <div class="board-column">
@@ -33,7 +57,7 @@
           cdkDropList
           #verificarList="cdkDropList"
           [cdkDropListData]="verificar"
-          [cdkDropListConnectedTo]="[fazerTarefaList, aprovadoList]"
+          [cdkDropListConnectedTo]="[fazerTarefaList, emExecucaoList, aprovadoList]"
           class="tasks-list"
           id="verificar-list"
           (cdkDropListDropped)="drop($event)">
@@ -57,7 +81,7 @@
           cdkDropList
           #aprovadoList="cdkDropList"
           [cdkDropListData]="aprovado"
-          [cdkDropListConnectedTo]="[fazerTarefaList, verificarList]"
+          [cdkDropListConnectedTo]="[fazerTarefaList, emExecucaoList, verificarList]"
           class="tasks-list"
           id="aprovado-list"
           (cdkDropListDropped)="drop($event)">

@@ -2,7 +2,7 @@ export interface Task {
     id: number;
     title: string;
     description: string;
-    status: 'FAZER_TAREFA' | 'VERIFICAR' | 'APROVADO';
+    status: 'FAZER_TAREFA' | 'EM_EXECUCAO' | 'VERIFICAR' | 'APROVADO';
     attributed_to: number;
     finalDate: Date;
     created_by: number;
